@@ -13,7 +13,7 @@ sub call {
 
     my $old_warn = $SIG{__WARN__} || sub { warn @_ };
     local $SIG{__WARN__} = sub {
-        push @{$env->{warnings}}, @_;
+        push @{$env->{'plack.middleware.warnstash.warnings'}}, @_;
         $old_warn->(@_);
     };
 
@@ -40,9 +40,9 @@ Plack::Middleware::WarnStash
 =head1 DESCRIPTION
 
 Plack::Middleware::WarnStash overrides the warn() handler to copy the
-contents of each warning into $env->{warnings}. The warnings can then
-be viewed with the debug panel enabled via the "Environment" tab or
-the Plack::Middleware::Debug::WarnLog tab.
+contents of each warning into $env->{plack.middleware.warnstash.warnings}.
+The warnings can then be viewed with the debug panel enabled via the
+"Environment" tab or the Plack::Middleware::Debug::WarnLog tab.
 
 =head1 AUTHOR
 
