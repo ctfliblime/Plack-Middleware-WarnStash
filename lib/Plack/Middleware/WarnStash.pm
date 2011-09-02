@@ -8,12 +8,14 @@ use warnings;
 
 our $VERSION = '0.001';
 
+use constant warn_key => 'plack.middleware.warnstash.warnings';
+
 sub call {
     my ($self, $env) = @_;
 
     my $old_warn = $SIG{__WARN__} || sub { warn @_ };
     local $SIG{__WARN__} = sub {
-        push @{$env->{'plack.middleware.warnstash.warnings'}}, @_;
+        push @{$env->{&warn_key}}, @_;
         $old_warn->(@_);
     };
 
